@@ -15,7 +15,7 @@ public class HealthCheckController {
 
     @GetMapping()
     public ResponseEntity<Object> status() {
-        return ResponseEntity.ok("<h1>Hello world!</h1>");
+        return ResponseEntity.ok("Success!");
     }
 
     @GetMapping("version")
