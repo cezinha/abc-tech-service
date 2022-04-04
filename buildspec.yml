@@ -2,7 +2,7 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - echo "Pre build phase - Exemplo baixar dependencias se fosse necessario"
+      - echo "Pre build phase"
   build:
     commands:
       - echo "Testing"
