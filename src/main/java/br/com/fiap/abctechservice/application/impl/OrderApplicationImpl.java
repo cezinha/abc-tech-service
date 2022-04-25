@@ -1,13 +1,18 @@
 package br.com.fiap.abctechservice.application.impl;
 
 import br.com.fiap.abctechservice.application.OrderApplication;
+import br.com.fiap.abctechservice.application.dto.AssistDto;
 import br.com.fiap.abctechservice.application.dto.OrderDto;
 import br.com.fiap.abctechservice.application.dto.OrderLocationDto;
+import br.com.fiap.abctechservice.model.Assistance;
 import br.com.fiap.abctechservice.model.Order;
 import br.com.fiap.abctechservice.model.OrderLocation;
 import br.com.fiap.abctechservice.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class OrderApplicationImpl implements OrderApplication {
@@ -17,7 +22,6 @@ public class OrderApplicationImpl implements OrderApplication {
     public OrderApplicationImpl(@Autowired OrderService orderService) {
         this.orderService = orderService;
     }
-
 
     @Override
     public void createOrder(OrderDto orderDto) {
@@ -29,12 +33,28 @@ public class OrderApplicationImpl implements OrderApplication {
         this.orderService.saveOrder(order, orderDto.getServices());
     }
 
-
     private OrderLocation getOrderLocationFromOrderLocationDto(OrderLocationDto orderLocationDto) {
         OrderLocation location = new OrderLocation();
         location.setLatitude(orderLocationDto.getLatitude());
         location.setLongitude(orderLocationDto.getLatitude());
         location.setDate(orderLocationDto.getDateTime());
         return location;
+    }
+
+    @Override
+    public List<OrderDto> getOrders(Long operatorId) {
+        List<Order> listOrders = this.orderService.listOrdersByOperator(operatorId);
+
+        return listOrders.stream().map(order -> {
+            OrderLocation orderStart = order.getStartOrderLocation();
+            OrderLocationDto orderDtoStart = new OrderLocationDto(orderStart.getLatitude(), orderStart.getLongitude(), orderStart.getDate());
+            OrderLocation orderEnd = order.getEndOrderLocation();
+            OrderLocationDto orderDtoEnd = new OrderLocationDto(orderEnd.getLatitude(), orderEnd.getLongitude(), orderEnd.getDate());
+            List<Assistance> listServices = order.getServices();
+            List<Long> services = listServices.stream().map(assistance -> assistance.getId()).collect(Collectors.toList());
+
+            OrderDto orderDto = new OrderDto(order.getOperatorId(), services, orderDtoStart, orderDtoEnd);
+            return orderDto;
+        }).collect(Collectors.toList());
     }
 }

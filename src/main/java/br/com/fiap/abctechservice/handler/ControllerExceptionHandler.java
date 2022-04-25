@@ -27,7 +27,7 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler(MaxAssistsException.class)
-    public ResponseEntity<ErrorMessageResponse> errorMaxAssisException(MaxAssistsException ex){
+    public ResponseEntity<ErrorMessageResponse> errorMaxAssistsException(MaxAssistsException ex){
         ErrorMessageResponse error = new ErrorMessageResponse(
                 HttpStatus.BAD_REQUEST.value(),
                 new Date(),

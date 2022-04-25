@@ -10,6 +10,7 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-//    @Query('')
-//    public List<Order> findByOperatorId(Long id);
+    @Query(value = "SELECT * FROM orders o WHERE o.operator_id = ?1",
+            nativeQuery = true)
+    public List<Order> findByOperatorId(Long id);
 }
