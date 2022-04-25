@@ -13,13 +13,16 @@ public class PropertiesComponentTests {
     void setUp() {
         propertiesComponent = new PropertiesComponent();
     }
+    @Test
+    void testingGetName() {
+        Assertions.assertNotNull(propertiesComponent.getName());
+        Assertions.assertEquals("abc-tech-service", propertiesComponent.getName());
+    }
 
     @Test
-    void testGetName() {
-        Assertions.assertNotNull(propertiesComponent.getName());
-    }
-    @Test
-    void testGetVersion() {
+    void testingGetVersion() {
         Assertions.assertNotNull(propertiesComponent.getVersion());
     }
+
+
 }
