@@ -8,25 +8,26 @@ import java.util.Properties;
 
 @Component
 public class PropertiesComponent {
-
     private Properties properties;
 
-    public PropertiesComponent() {
-        this.properties = new Properties();
+    public PropertiesComponent(){
+        properties = new Properties();
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("application.yml");
         try {
             properties.load(inputStream);
-        } catch (
-                IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public String getName() {
+    public String getName(){
         return properties.getProperty("build.name");
     }
 
-    public String getVersion() {
+    public String getVersion(){
         return properties.getProperty("build.version");
     }
+
+
+
 }

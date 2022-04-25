@@ -1,18 +1,17 @@
 version: 0.2
-
 phases:
   pre_build:
     commands:
-      - echo "Pre build phase - nothing"
+      - echo "Meu pre build da aplicação"
   build:
     commands:
       - echo "Testing"
-      - mvn test
+      - mvn clean test
       - echo "Building"
       - mvn clean compile package
   post_build:
     commands:
-      - echo "Movendo os arquivos que serao feitos upload"
+      - echo "Movendo os arquivos que serão feitos upload"
       - mv target/*.war ./ROOT.war
 artifacts:
   files:
